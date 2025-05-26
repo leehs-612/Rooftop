@@ -15,32 +15,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     const commentForm = document.getElementById('commentForm');
     const commentContentInput = document.getElementById('commentContent');
 
+    // URL에서 게시글 ID 추출 (메모리 저장 방식에서는 ID가 숫자이므로 parseInt 사용)
     const pathSegments = window.location.pathname.split('/');
-    const postId = parseInt(pathSegments[pathSegments.length - 1]);
+    const postId = parseInt(pathSegments[pathSegments.length - 1]); // <--- parseInt 다시 추가
 
     let currentPostData = null;
 
     // --- 로컬 스토리지 관련 함수 ---
-    // 로컬 스토리지 키 생성 (게시글 ID와 액션 타입을 결합)
     function getLocalStorageKey(entityType, id, actionType) {
         return `oktopbang_${entityType}_${id}_${actionType}`;
     }
 
-    // 로컬 스토리지에 액션 기록 저장
     function saveActionToLocalStorage(entityType, id, actionType) {
         localStorage.setItem(getLocalStorageKey(entityType, id, actionType), 'true');
     }
 
-    // 로컬 스토리지에서 액션 기록 확인
     function hasActed(entityType, id, actionType) {
         return localStorage.getItem(getLocalStorageKey(entityType, id, actionType)) === 'true';
     }
 
-    // 버튼 상태 업데이트 (클릭 불가 및 스타일 변경)
     function updateButtonState(button, entityType, id, actionType) {
         if (hasActed(entityType, id, actionType)) {
             button.disabled = true;
-            button.classList.add('acted'); // CSS 스타일을 위한 클래스 추가
+            button.classList.add('acted');
             if (actionType === 'like') button.classList.add('liked');
             if (actionType === 'dislike') button.classList.add('disliked');
             if (actionType === 'report') button.classList.add('reported');
@@ -49,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 게시글 상세 정보 로딩 ---
     async function fetchPostDetail() {
-        if (isNaN(postId)) {
+        if (isNaN(postId)) { // ID가 숫자가 아니면 유효하지 않음
             postDetailContainer.style.display = 'none';
             postNotFound.style.display = 'block';
             detailTitle.textContent = '잘못된 접근';
@@ -66,7 +63,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 updatePostVoteCounts(currentPostData.likes, currentPostData.dislikes);
                 updatePostReportsCount(currentPostData.reports || 0);
 
-                // 게시글 좋아요/싫어요/신고 버튼 상태 업데이트
                 updateButtonState(likePostBtn, 'post', postId, 'like');
                 updateButtonState(dislikePostBtn, 'post', postId, 'dislike');
                 updateButtonState(reportPostBtn, 'post', postId, 'report');
@@ -86,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- 게시글 좋아요/싫어요/신고 카운트 업데이트 (기존과 동일) ---
+    // --- 게시글 좋아요/싫어요/신고 카운트 업데이트 ---
     function updatePostVoteCounts(likes, dislikes) {
         postLikesCount.textContent = likes;
         postDislikesCount.textContent = dislikes;
@@ -130,7 +126,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (response.ok) {
                 const data = await response.json();
                 updatePostVoteCounts(data.likes, data.dislikes);
-                return true; // 성공 시 true 반환
+                return true;
             } else {
                 const errorData = await response.json();
                 alert('투표 실패: ' + errorData.message);
@@ -180,7 +176,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 댓글 목록 로딩 ---
     async function fetchComments() {
-        if (isNaN(postId)) return;
+        if (isNaN(postId)) return; // ID가 숫자가 아니면 댓글도 불러오지 않음
 
         try {
             const response = await fetch(`/api/comments/${postId}`);
@@ -231,7 +227,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateButtonState(dislikeCommentBtn, 'comment', comment.id, 'dislike');
 
 
-        // ... (이하 모든 함수는 이전과 동일, 중복 클릭 방지 로직 추가) ...
         const replyBtn = listItem.querySelector('.reply-btn');
         const repliesContainer = listItem.querySelector('.replies-container');
 
@@ -256,7 +251,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 replyForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     const content = replyForm.querySelector('.reply-content-input').value.trim();
-                    const parentId = parseInt(replyForm.dataset.parentId);
+                    const parentId = parseInt(replyForm.dataset.parentId); // 부모 ID도 숫자로
 
                     if (!content) {
                         alert('답글 내용을 입력해주세요.');
@@ -275,7 +270,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         listItem.querySelector('.like-comment-btn').addEventListener('click', async (e) => {
-            const commentId = parseInt(e.currentTarget.dataset.commentId);
+            const commentId = parseInt(e.currentTarget.dataset.commentId); // 댓글 ID도 숫자로
             if (hasActed('comment', commentId, 'like')) {
                 alert('이미 이 댓글에 좋아요를 눌렀습니다.');
                 return;
@@ -285,7 +280,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateButtonState(e.currentTarget, 'comment', commentId, 'like');
         });
         listItem.querySelector('.dislike-comment-btn').addEventListener('click', async (e) => {
-            const commentId = parseInt(e.currentTarget.dataset.commentId);
+            const commentId = parseInt(e.currentTarget.dataset.commentId); // 댓글 ID도 숫자로
             if (hasActed('comment', commentId, 'dislike')) {
                 alert('이미 이 댓글에 싫어요를 눌렀습니다.');
                 return;
@@ -308,7 +303,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
 
-    // --- 댓글 작성 처리 (메인 댓글, 대댓글 모두 처리) (기존과 동일) ---
+    // --- 댓글 작성 처리 (메인 댓글, 대댓글 모두 처리) ---
     if (commentForm) {
         commentForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -329,7 +324,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetch('/api/comments', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ postId, parentId, content })
+                body: JSON.stringify({ postId: postId, parentId: parentId, content: content })
             });
 
             if (response.ok) {

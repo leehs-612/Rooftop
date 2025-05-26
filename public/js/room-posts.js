@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const roomTitleElement = document.getElementById('roomTitle');
     const postsList = document.getElementById('postsList');
     const noPostsMessage = document.getElementById('noPostsMessage');
-    // const currentRoomTab = document.getElementById('currentRoomTab'); // 이 부분은 이제 필요 없습니다.
 
     // URL에서 방 이름(ID) 추출 (예: /room/free -> roomName = 'free')
     const pathSegments = window.location.pathname.split('/');
@@ -31,14 +30,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 방 제목 업데이트
     const displayName = await getRoomDisplayName(roomName);
     roomTitleElement.textContent = displayName;
-    // currentRoomTab.innerHTML = `<a href="/room/${roomName}">${displayName}</a>`; // 헤더 탭 업데이트는 이제 HTML에서 직접 할 것
 
     // 게시글 목록을 가져와서 표시하는 함수
     async function fetchPosts() {
         try {
-            // 특정 방의 게시글 API 호출
             const response = await fetch(`/api/posts/${roomName}`);
             const posts = await response.json();
+
+            // --- 디버깅을 위한 console.log (추가) ---
+            console.log('--- room-posts.js: 서버로부터 받은 게시글 데이터 ---');
+            console.log(posts); // 여기에서 post.id가 무엇인지 확인 (숫자여야 함)
+            if(posts.length > 0) {
+                console.log('첫 번째 게시글 ID:', posts[0].id);
+            }
+            console.log('----------------------------------------------------');
+            // --- 디버깅 console.log 끝 ---
 
             postsList.innerHTML = ''; // 기존 목록 초기화
 
@@ -46,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 noPostsMessage.style.display = 'none'; // 메시지 숨기기
                 posts.forEach(post => {
                     const listItem = document.createElement('li');
-                    // 게시글 제목 클릭 시 상세 페이지로 이동
+                    // post.id는 이미 숫자로 된 ID 값입니다.
                     listItem.innerHTML = `<h4><a href="/post/${post.id}">${post.title}</a></h4><p class="post-author">작성자: ${post.author || '익명'}</p>`;
                     postsList.appendChild(listItem);
                 });
