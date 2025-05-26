@@ -20,7 +20,10 @@ const rooms = [
     { id: 'game', name: '게임방' },
     { id: 'school', name: '학교방' },
     { id: 'chat', name: '수다방' },
-    { id: 'free', name: '자유방' }
+    { id: 'free', name: '자유방' },
+    { id: 'duck', name: '덕질방' },
+    { id: 'qust', name: '질문방' },
+    { id: 'dirtjr', name: '약속방' }
 ];
 
 // --- 임시 게시글 데이터 (메모리 저장) ---
