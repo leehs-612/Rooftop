@@ -35,8 +35,7 @@ let nextPostId = 5;
 
 // --- 임시 공지사항 데이터 ---
 let notices = [
-    { id: 1, title: '커뮤니티 오픈 공지', content: '<p>옥탑방 커뮤니티가 드디어 문을 열었습니다!</p>' },
-    { id: 2, title: '이용 수칙 안내', content: '<p>건전한 커뮤니티를 위해 <strong>이용 수칙</strong>을 지켜주세요.</p>' }
+    { id: 1, title: '이용 수칙 안내', content: '<p>건전한 커뮤니티를 위해 <strong>이용 수칙</strong>을 지켜주세요.</p>/n <p>1. 상대방을 향안 <strong>심한 욕설, 비방</strong>을 금지한다.</p>/n <p>2. <strong>정치적인 드립</strong>을 금지한다.</p>/n<p>3. <strong>19금, 혹은 그와 관련된 게시물 게시</strong>를 금지한다.</p>/n<p>4. 커뮤니티를<strong> 배려심 넓게 상대를 배려하며 </strong>이용한다.</p>'}
 ];
 
 // --- 임시 댓글 데이터 ---
