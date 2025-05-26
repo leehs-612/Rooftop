@@ -13,7 +13,5 @@
   "dependencies": {
     "express": "^4.18.2",
     "body-parser": "^1.20.2"
-    // mongoose는 이제 사용하지 않습니다.
-    // bcrypt, express-session도 현재 필요 없습니다.
   }
 }
