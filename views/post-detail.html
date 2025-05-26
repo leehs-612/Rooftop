@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>옥탑방 커뮤니티 - 게시글 상세</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/">옥탑방</a></h1>
+        <nav>
+            <ul>
+                <li><a href="/">홈</a></li>
+                <li><a href="/notice">공지사항</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div id="post-detail-container">
+            <h2 id="detailTitle">게시글 제목 로딩 중...</h2>
+            <div id="detailContent" class="post-content">
+                <p>내용 로딩 중...</p>
+            </div>
+            <div class="post-actions-bottom">
+                <button id="likePostBtn" class="vote-btn like-btn">좋아요 (<span id="postLikesCount">0</span>)</button>
+                <button id="dislikePostBtn" class="vote-btn dislike-btn">싫어요 (<span id="postDislikesCount">0</span>)</button>
+                <button type="button" onclick="history.back()">목록으로</button>
+                <button id="reportPostBtn" class="report-btn">신고 (<span id="postReportsCount">0</span>)</button>
+            </div>
+
+            <div class="comments-section">
+                <h3>댓글</h3>
+                <div class="comment-form">
+                    <form id="commentForm">
+                        <textarea id="commentContent" placeholder="댓글을 입력하세요" required></textarea>
+                        <button type="submit">댓글 작성</button>
+                    </form>
+                </div>
+                <div class="comment-list">
+                    <ul id="commentsList">
+                        </ul>
+                    <p id="noCommentsMessage" style="display: none;">아직 댓글이 없습니다.</p>
+                </div>
+            </div>
+        </div>
+        <p id="postNotFound" style="display: none;">게시글을 찾을 수 없습니다.</p>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 옥탑방 커뮤니티. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/post-detail.js"></script>
+</body>
+</html>

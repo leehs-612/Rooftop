@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>옥탑방 커뮤니티 - [방 이름]</title> <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/">옥탑방</a></h1>
+        <nav>
+            <ul>
+                <li><a href="/">홈</a></li>
+                <li><a href="/notice">공지사항</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2 id="roomTitle">로딩 중...</h2> <div class="post-actions">
+            <button onclick="location.href='/write'">글 작성</button>
+        </div>
+        <div class="post-list">
+            <h3>게시글 목록</h3>
+            <ul id="postsList">
+                </ul>
+            <p id="noPostsMessage" style="display: none;">아직 게시글이 없습니다.</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 옥탑방 커뮤니티. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/room-posts.js"></script>
+</body>
+</html>
